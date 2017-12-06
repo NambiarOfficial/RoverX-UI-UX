@@ -3,7 +3,7 @@ from toplog import Ui_MainWindow
 import sys
 
 class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
-	def __init__(self, navFunc = None,parent = None):
+	def __init__(self, navFunc,parent = None):
 		QtWidgets.QMainWindow.__init__(self, parent = parent)
 		self.navFunc = navFunc
 		self.setupUi(self)
