@@ -3,8 +3,9 @@ from toplog import Ui_MainWindow
 import sys
 
 class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
-	def __init__(self, parent = None):
+	def __init__(self, navFunc = None,parent = None):
 		QtWidgets.QMainWindow.__init__(self, parent = parent)
+		self.navFunc = navFunc
 		self.setupUi(self)
 		self.comboBox.addItems(['ROVER', 'IMU'])
 		self.roverIPText.show()
@@ -29,7 +30,7 @@ class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
 		self.imuButton.clicked.connect(lambda: self.printToLog('IMU'))
 		#self.infoText.setStyleSheet("background-color: black; color:green")
 		self.show()
-
+		
 	def printToLog(self,button):
 		if button == 'IP':
 			if self.comboBox.currentText() == 'ROVER':
@@ -77,8 +78,6 @@ class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
 				self.imuState = 'OFF'
 				self.imuButton.setStyleSheet("background-color:red")
 
-
-
 	def changeComboText(self):
 		if self.comboBox.currentText() == 'ROVER':
 			self.roverIPText.show()
@@ -93,17 +92,38 @@ class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
 		elif event.key() == QtCore.Qt.Key_Minus:
 			self.speedBar.setValue(self.speedBar.value() - 1)
 
-		if event.key() == QtCore.Qt.Key_A:
+		if event.key() == QtCore.Qt.Key_A and event.modifiers() == QtCore.Qt.ShiftModifier:
+			self.infoText.append('ONLY RIGHT WHEELS MOVING')
+			self.navFunc(0,1)
+		elif event.key() == QtCore.Qt.Key_A and event.modifiers() == QtCore.Qt.ControlModifier:
+			self.infoText.append('ONLY LEFT WHEELS MOVING BACKWARD')
+			self.navFunc(2,0)
+		elif event.key() == QtCore.Qt.Key_A:
 			self.infoText.append('ROVER MOVING LEFT')
-		if event.key() == QtCore.Qt.Key_D:
+			self.navFunc(2,1)
+
+		if event.key() == QtCore.Qt.Key_D and event.modifiers() == QtCore.Qt.ShiftModifier:
+			self.infoText.append('ONLY LEFT WHEELS MOVING')
+			self.navFunc(1,0)
+		elif event.key() == QtCore.Qt.Key_D and event.modifiers() == QtCore.Qt.ControlModifier:
+			self.infoText.append('ONLY RIGHT WHEELS MOVING BACKWARD')
+			self.navFunc(0,2)
+		elif event.key() == QtCore.Qt.Key_D:
 			self.infoText.append('ROVER MOVING RIGHT')
+			self.navFunc(1,2)
+
+		if event.key() == QtCore.Qt.Key_W:
+			self.infoText.append('ROVER MOVING FORWARD')
+			self.navFunc(1,1)
+		if event.key() == QtCore.Qt.Key_S:
+			self.infoText.append('ROVER MOVING BACKWARD')
+			self.navFunc(2,2)
+		
 		if self.speedBar.value() < 20:
 			self.speedBar.setStyleSheet("""QProgressBar::chunk { background-color:red;} QProgressBar{text-align:center;} """)
 		else:
 			self.speedBar.setStyleSheet("""QProgressBar::chunk { background-color:green;} QProgressBar{text-align:center;} """)
 
-
-
 app = QtWidgets.QApplication(sys.argv)
-window = MainWindow()
-app.exec_()
+#window = MainWindow()
+#app.exec_()
