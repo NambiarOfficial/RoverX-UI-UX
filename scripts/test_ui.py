@@ -40,41 +40,41 @@ class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
 
 		if button == 'NAV':
 			if self.navState == 'OFF':
-				self.infoText.append('NAVIGATION MODULE ACTIVE')
+				#self.appendText('NAVIGATION MODULE ENABLED')
 				self.navState = 'ON'
 				self.navigationButton.setStyleSheet("background-color:green")
 			else:
-				self.infoText.append('NAVIGATION MODULE DISABLED')
+				#self.infoText.append('NAVIGATION MODULE DISABLED')
 				self.navState = 'OFF'
 				self.navigationButton.setStyleSheet("background-color:red")
 
 		if button == 'GPS':
 			if self.gpsState == 'OFF':
-				self.infoText.append('GPS MODULE ACTIVE')
+				#self.infoText.append('GPS MODULE ACTIVE')
 				self.gpsState = 'ON'
 				self.gpsButton.setStyleSheet("background-color:green")
 			else:
-				self.infoText.append('GPS MODULE DISABLED')
+				#self.infoText.append('GPS MODULE DISABLED')
 				self.gpsState = 'OFF'
 				self.gpsButton.setStyleSheet("background-color:red")
 
 		if button == 'ARM':
 			if self.armState == 'OFF':
-				self.infoText.append('ARM MODULE ACTIVE')
+				#self.infoText.append('ARM MODULE ACTIVE')
 				self.armState = 'ON'
 				self.armButton.setStyleSheet("background-color:green")
 			else:
-				self.infoText.append('ARM MODULE DISABLED')
+				#self.infoText.append('ARM MODULE DISABLED')
 				self.armState = 'OFF'
 				self.armButton.setStyleSheet("background-color:red")
 
 		if button == 'IMU':
 			if self.imuState == 'OFF':
-				self.infoText.append('IMU MODULE ACTIVE')
+				#self.infoText.append('IMU MODULE ACTIVE')
 				self.imuState = 'ON'
 				self.imuButton.setStyleSheet("background-color:green")
 			else:
-				self.infoText.append('IMU MODULE DISABLED')
+				#self.infoText.append('IMU MODULE DISABLED')
 				self.imuState = 'OFF'
 				self.imuButton.setStyleSheet("background-color:red")
 
@@ -85,6 +85,9 @@ class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
 		else:
 			self.imuIPText.show()
 			self.roverIPText.hide()
+			
+	def appendText(self, message):
+		self.infoText.append(message)
 
 	def keyPressEvent(self,event):
 		if event.key() == QtCore.Qt.Key_Plus:
@@ -93,30 +96,30 @@ class MainWindow(Ui_MainWindow, QtWidgets.QMainWindow):
 			self.speedBar.setValue(self.speedBar.value() - 1)
 
 		if event.key() == QtCore.Qt.Key_A and event.modifiers() == QtCore.Qt.ShiftModifier:
-			self.infoText.append('ONLY RIGHT WHEELS MOVING')
+			#self.infoText.append('ONLY RIGHT WHEELS MOVING')
 			self.navFunc(0,1)
 		elif event.key() == QtCore.Qt.Key_A and event.modifiers() == QtCore.Qt.ControlModifier:
-			self.infoText.append('ONLY LEFT WHEELS MOVING BACKWARD')
+			#self.infoText.append('ONLY LEFT WHEELS MOVING BACKWARD')
 			self.navFunc(2,0)
 		elif event.key() == QtCore.Qt.Key_A:
-			self.infoText.append('ROVER MOVING LEFT')
+			#self.infoText.append('ROVER MOVING LEFT')
 			self.navFunc(2,1)
 
 		if event.key() == QtCore.Qt.Key_D and event.modifiers() == QtCore.Qt.ShiftModifier:
-			self.infoText.append('ONLY LEFT WHEELS MOVING')
+			#self.infoText.append('ONLY LEFT WHEELS MOVING')
 			self.navFunc(1,0)
 		elif event.key() == QtCore.Qt.Key_D and event.modifiers() == QtCore.Qt.ControlModifier:
-			self.infoText.append('ONLY RIGHT WHEELS MOVING BACKWARD')
+			#self.infoText.append('ONLY RIGHT WHEELS MOVING BACKWARD')
 			self.navFunc(0,2)
 		elif event.key() == QtCore.Qt.Key_D:
-			self.infoText.append('ROVER MOVING RIGHT')
+			#self.infoText.append('ROVER MOVING RIGHT')
 			self.navFunc(1,2)
 
 		if event.key() == QtCore.Qt.Key_W:
-			self.infoText.append('ROVER MOVING FORWARD')
+			#self.infoText.append('ROVER MOVING FORWARD')
 			self.navFunc(1,1)
 		if event.key() == QtCore.Qt.Key_S:
-			self.infoText.append('ROVER MOVING BACKWARD')
+			#self.infoText.append('ROVER MOVING BACKWARD')
 			self.navFunc(2,2)
 		
 		if self.speedBar.value() < 20:
